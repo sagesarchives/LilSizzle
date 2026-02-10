@@ -9,34 +9,34 @@ import SwiftUI
 import AVFoundation
 
     struct PotView: View {
-        @State var xPos1: CGFloat = 940
-        @State var yPos1: CGFloat = 620
+        @State var xPosPot: CGFloat = 940
+        @State var yPosPot: CGFloat = 620
         
-        //Position #2 = Ingredient #1
-        @State var xPos2: CGFloat = 100
-        @State var yPos2: CGFloat = 500
+        //Position #2 = tofu Ingredient #1
+        @State var xPosTofu: CGFloat = 100
+        @State var yPosTofu: CGFloat = 500
         
-        //Position #3 = Ingredient #3
-        @State var xPos3: CGFloat = 300
-        @State var yPos3: CGFloat = 485
+        //Position #3 =  onion Ingredient #2
+        @State var xPosOnion: CGFloat = 300
+        @State var yPosOnion: CGFloat = 485
         
-        @State var xPos4: CGFloat = 100
-        @State var yPos4: CGFloat = 700
+        @State var xPosFlour: CGFloat = 100
+        @State var yPosFlour: CGFloat = 700
         
-        @State var xPos5: CGFloat = 300
-        @State var yPos5: CGFloat = 700
+        @State var xPosSugar: CGFloat = 300
+        @State var yPosSugar: CGFloat = 700
         
-        @State var xPos6: CGFloat = 100
-        @State var yPos6: CGFloat = 890
+        @State var xPosCinnamon: CGFloat = 100
+        @State var yPosCinnamon: CGFloat = 890
         
-        @State var xPos7: CGFloat = 300
-        @State var yPos7: CGFloat = 890
+        @State var xPosOil: CGFloat = 300
+        @State var yPosOil: CGFloat = 890
         
-        @State var xPos8: CGFloat = 100
-        @State var yPos8: CGFloat = 1100
+        @State var xPosTSauce: CGFloat = 100
+        @State var yPosTSauce: CGFloat = 1100
         
-        @State var xPos9: CGFloat = 300
-        @State var yPos9: CGFloat = 1100
+        @State var xPosWater: CGFloat = 300
+        @State var yPosWater: CGFloat = 1100
         
         @State var xPos10: CGFloat = 1300
         @State var yPos10: CGFloat = 250
@@ -63,15 +63,15 @@ import AVFoundation
                     .resizable()
                     .scaledToFit()
                     .frame(width: 750, height: 750)
-                                .position(x: self.xPos1, y: self.yPos1)
+                                .position(x: self.xPosPot, y: self.yPosPot)
                 Image("tofu")
-                    .position(x: self.xPos2, y:self.yPos2)
+                    .position(x: self.xPosTofu, y:self.yPosTofu)
                     .gesture(
                         DragGesture()
                             .onChanged({value in
-                                self.xPos2 = value.location.x
-                                self.yPos2 = value.location.y
-//                                self.collision()
+                                self.xPosTofu = value.location.x
+                                self.yPosTofu = value.location.y
+                                self.checkCollision()
                                 
                             })
                     )
@@ -79,87 +79,90 @@ import AVFoundation
                     .resizable()
                     .scaledToFit()
                     .frame(width: 165, height: 165)
-                    .position(x: self.xPos3, y:self.yPos3)
+                    .position(x: self.xPosOnion, y:self.yPosOnion)
                     .gesture(
                         DragGesture()
                             .onChanged({value in
-                                self.xPos3 = value.location.x
-                                self.yPos3 = value.location.y
-//                                self.collision()
+                                self.xPosOnion = value.location.x
+                                self.yPosOnion = value.location.y
+                                self.checkCollision()
                                 
-                            })
-                    )
+                            })// on changed ending brace
+                    )// gesture ending brace
                                 
                 Image("flour")
-                    .position(x: self.xPos4, y:self.yPos4)
+                    .position(x: self.xPosFlour, y:self.yPosFlour)
                     .gesture(
                         DragGesture()
                             .onChanged({value in
-                                self.xPos4 = value.location.x
-                                self.yPos4 = value.location.y
-//                                self.collision()
+                                self.xPosFlour = value.location.x
+                                self.yPosFlour = value.location.y
+                                self.checkCollision()
                                 
-                            })
-                    )
+                            })// onchanged ending brace
+                    )// gesture ending brace
             
                 Image("sugar")
-                    .position(x: self.xPos5, y:self.yPos5)
+                    .position(x: self.xPosSugar, y:self.yPosSugar)
                     .gesture(
                         DragGesture()
                             .onChanged({value in
-                                self.xPos5 = value.location.x
-                                self.yPos5 = value.location.y
-//                                self.collision()
+                                self.xPosSugar = value.location.x
+                                self.yPosSugar = value.location.y
+                                self.checkCollision()
                                 
-                            })
-                    )
+                            })//on changed ending brace
+                    )// gesture ending brace
                 Image("cinnamon")
-                    .position(x: self.xPos6, y:self.yPos6)
+                    .position(x: self.xPosCinnamon, y:self.yPosCinnamon)
                     .gesture(
                         DragGesture()
                             .onChanged({value in
-                                self.xPos6 = value.location.x
-                                self.yPos6 = value.location.y
-//                                self.collision()
+                                self.xPosCinnamon = value.location.x
+                                self.yPosCinnamon = value.location.y
+                               self.checkCollision()
                                 
-                            })
-                    )
-                Image("salt")
-                    .position(x: self.xPos7, y:self.yPos7)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPos7 = value.location.x
-                                self.yPos7 = value.location.y
-//                                self.collision()
-                                
-                            })
-                    )
-                Image("tomatoSauce")
-                    .position(x: self.xPos8, y:self.yPos8)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPos8 = value.location.x
-                                self.yPos8 = value.location.y
-//                                self.collision()
-                                
-                            })
-                    )
-                Image("oatMilk")
+                            })// on changed ending brace
+                    )// gesture ending brace
+                Image("oil")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
-                    .position(x: self.xPos9, y:self.yPos9)
+                    .frame ( width: 160, height: 160)
+                    .position(x: self.xPosOil, y:self.yPosOil)
                     .gesture(
                         DragGesture()
                             .onChanged({value in
-                                self.xPos9 = value.location.x
-                                self.yPos9 = value.location.y
-//                                self.collision()
+                                self.xPosOil = value.location.x
+                                self.yPosOil = value.location.y
+                                self.checkCollision()
                                 
-                            })
-                    )
+                            })//on changed ending brace
+                    )// gesture ending brace
+                Image("tomatoSauce")
+                    .position(x: self.xPosTSauce, y:self.yPosTSauce)
+                    .gesture(
+                        DragGesture()
+                            .onChanged({value in
+                                self.xPosTSauce = value.location.x
+                                self.yPosTSauce = value.location.y
+                               self.checkCollision()
+                                
+                            })// on changed ending brace
+                    )//gesture ending brace
+                Image("water")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 170, height: 170)
+                    .position(x: self.xPosWater, y:self.yPosWater)
+                    .gesture(
+                        DragGesture()
+                            .onChanged({value in
+                                self.xPosWater = value.location.x
+                                self.yPosWater = value.location.y
+                                self.checkCollision()
+                                
+                            })// on changed ending brace
+                    )// gesture ending brace
                 
                 Image("fireUnlit")
                     .resizable()
@@ -171,10 +174,10 @@ import AVFoundation
                             .onChanged({value in
                                 self.xPos10 = value.location.x
                                 self.yPos10 = value.location.y
-//                                self.collision()
+                                self.checkCollision()
                                 
-                            })
-                    )
+                            })// on changed ending brace
+                    )// gesture ending brace
                 Image("fireUnlit")
                     .resizable()
                     .scaledToFit()
@@ -185,10 +188,9 @@ import AVFoundation
                             .onChanged({value in
                                 self.xPos11 = value.location.x
                                 self.yPos11 = value.location.y
-//                                self.collision()
-                                
-                            })
-                    )
+                                self.checkCollision()
+                            })// on changed ending brace
+                    )// gesture ending brace
                 Image("fireUnlit")
                     .resizable()
                     .scaledToFit()
@@ -199,14 +201,34 @@ import AVFoundation
                             .onChanged({value in
                                 self.xPos12 = value.location.x
                                 self.yPos12 = value.location.y
-//                                self.collision()
+                                self.checkCollision()
                                 
-                            })
-                    )
+                            })// on changed ending brace
+                    )// gesture ending brace
                 
             } // zstack ending brace
         } // var body ending brace
-    } // struct ending brace
+func checkCollision () {
+    if abs(self.xPosPot - self.xPosFlour) < 100 && abs(self.yPosPot - self.yPosFlour) < 100 {
+        self.collision = true
+    } else if abs(self.xPosPot - self.xPosTofu) < 100 && abs (self.xPosPot - self.yPosTofu) < 100 {
+        self.collision = true
+    } else if abs(self.xPosPot - self.xPosOnion) < 100 && abs (self.xPosPot - self.yPosOnion) < 100 {
+        self.collision = true
+    } else if abs (self.xPosPot - self.xPosCinnamon) < 100 && abs (self.xPosPot - self.yPosCinnamon) < 100 {
+        self.collision = true
+    } else if abs (self.xPosPot - xPosOil) < 100 && abs (self.xPosPot - self.yPosOil) < 100 {
+        self.collision = true
+    } else if abs (self.xPosPot - self.xPosSugar) < 100 && abs (self.yPosPot - self.yPosSugar) < 100 {
+        self.collision = true
+    } else if abs (self.xPosPot - self.xPosTSauce) < 100 && abs (self.xPosPot - self.yPosTSauce) < 100 {
+        self.collision = true
+    } else if abs (self.xPosPot - self.xPosWater) < 100 && abs (self.xPosPot - self.yPosWater) < 100 {
+        self.collision = true
+    }//if else statements ending brace
+} //func ending brace
+} //struct ending brace
+
 
 #Preview {
     PotView()
