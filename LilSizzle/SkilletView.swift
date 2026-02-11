@@ -7,45 +7,59 @@
 
 import SwiftUI
 
+
 struct SkilletView: View {
     
+    // array for ingredients
+    
+    
     // Position #1 = Pot -- Stays Stagnant
-    @State var xPosPot: CGFloat = 200
-    @State var yPosPot: CGFloat = 300
+    @State var xPosSkillet: CGFloat = 200
+    @State var yPosSkillet: CGFloat = 300
     
     // Position #2 = Mayo & Lime Mixture
-    @State var xPosMayoLime: CGFloat = 200
-    @State var yPosMayoLime: CGFloat = 600
+    @State var xPosMayoLime: CGFloat = 118
+    @State var yPosMayoLime: CGFloat = 500
     
     // Position #3 = Corn Kernels
-    @State var xPosCorn: CGFloat = 400
-    @State var yPosCorn: CGFloat = 600
+    @State var xPosCorn: CGFloat = 320
+    @State var yPosCorn: CGFloat = 500
     
     // Position #4 = Cotija Cheese
-    @State var xPosCotija: CGFloat = 400
-    @State var yPosCotija: CGFloat = 600
+    @State var xPosCotija: CGFloat = 118
+    @State var yPosCotija: CGFloat = 700
     
     // Position #5 = Black Pepper
-    @State var xPosBlackPepper: CGFloat = 400
-    @State var yPosBlackPepper: CGFloat = 600
+    @State var xPosBlackPepper: CGFloat = 320
+    @State var yPosBlackPepper: CGFloat = 700
     
     // Position #6 = Oregano
-    @State var xPosOregano: CGFloat = 400
-    @State var yPosOregano: CGFloat = 600
+    @State var xPosOregano: CGFloat = 125
+    @State var yPosOregano: CGFloat = 900
     
     // Position #7 = Ground Beef
-    @State var xPosGroundBeef: CGFloat = 400
-    @State var yPosGroundBeef: CGFloat = 600
+    @State var xPosGroundBeef: CGFloat = 320
+    @State var yPosGroundBeef: CGFloat = 900
     
     // Position #8 = Lemon Juice
-    @State var xPosLemonJuice: CGFloat = 400
-    @State var yPosLemonJuice: CGFloat = 600
+    @State var xPosLemonJuice: CGFloat = 125
+    @State var yPosLemonJuice: CGFloat = 1100
     
     // Position #9 = Onion
-    @State var xPosOnion: CGFloat = 400
-    @State var yPosOnion: CGFloat = 600
+    @State var xPosOnion: CGFloat = 320
+    @State var yPosOnion: CGFloat = 1100
     
-    @State var collision: Bool = false
+    // Ingredient collision booleans
+    @State var mayoLimeCollision: Bool = false
+    @State var cornCollision: Bool = false
+    @State var cotijaCollision: Bool = false
+    @State var blackPepperCollision: Bool = false
+    @State var oreganoCollision: Bool = false
+    @State var groundBeefCollision: Bool = false
+    @State var lemonJuiceCollision: Bool = false
+    @State var onionCollision: Bool = false
+
+//    @State var ingredientCount: Int
     
     var body: some View {
         ZStack {
@@ -54,31 +68,39 @@ struct SkilletView: View {
                 .scaledToFit()
                 .frame(width: 1387, height: 1387)
             
-//            Image("start")
-//                .offset(x: -380, y: -450)
             
+            // Settings
             Image(systemName: "gearshape.circle.fill")
                 .font(.system(size: 80))
                 .offset(x: -600, y: -450)
-                .foregroundColor(.sizzlePurple)
-                
+                .foregroundColor(.black)
+
             
+            // Flames
+            HStack {
+                Image(systemName: "flame")
+                    .font(.system(size: 60))
+                Image(systemName: "flame")
+                    .font(.system(size: 60))
+                Image(systemName: "flame")
+                    .font(.system(size: 60))
+            } // hstack ending brace
+            .offset(x: 560, y: -450)
+
             // -- GAME START
             
-            // Skillet; Stay stagnant
+            // Skillet; Stays stagnant
             Image("skillet")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 750, height: 750)
-                .position(x: self.xPosPot, y: self.yPosPot)
+                .position(x: self.xPosSkillet, y: self.yPosSkillet)
                 .offset(y: 320)
                 .offset(x: 700)
             
             // Mayo & Lime mixture
             Image("mayoLime")
                 .position(x: self.xPosMayoLime, y: self.yPosMayoLime)
-                .offset(x: -95)
-                .offset(y: -105)
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
@@ -91,8 +113,6 @@ struct SkilletView: View {
             // Corn kernels
             Image("cornKernels")
                 .position(x: self.xPosCorn, y: self.yPosCorn)
-                .offset(x: -95)
-                .offset(y: -105)
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
@@ -104,8 +124,6 @@ struct SkilletView: View {
             // Cotija cheese
             Image("cotijaCheese")
                 .position(x: self.xPosCotija, y: self.yPosCotija)
-                .offset(x: -290)
-                .offset(y: 100)
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
@@ -121,8 +139,6 @@ struct SkilletView: View {
                 .scaledToFit()
                 .frame(width: 160, height: 160)
                 .position(x: self.xPosBlackPepper, y: self.yPosBlackPepper)
-                .offset(x: -100)
-                .offset(y: 95)
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
@@ -133,11 +149,8 @@ struct SkilletView: View {
                 ) // gesture ending brace
             
             // Misc. Ingredient: Oregano
-            
             Image("oregano")
                 .position(x: self.xPosOregano, y: self.yPosOregano)
-                .offset(x: -270)
-                .offset(y: 300)
                 .gesture(
                         DragGesture()
                             .onChanged({ value in
@@ -148,14 +161,11 @@ struct SkilletView: View {
                     ) // gesture ending brace
                 
             // Misc. Ingredient: Ground Beef
-            
             Image("beef")
                 .resizable( )
                 .scaledToFit()
                 .frame(width: 200, height: 200)
                 .position(x: self.xPosGroundBeef, y: self.yPosGroundBeef)
-                .offset(x: -80)
-                .offset(y: 300)
                 .gesture (
                     DragGesture()
                         .onChanged({ value in
@@ -166,11 +176,8 @@ struct SkilletView: View {
                 ) // gesture ending brace
             
             // Misc. Ingredient: Lemon Juice
-
             Image("lemonJuice")
                 .position(x: self.xPosLemonJuice, y: self.yPosLemonJuice)
-                .offset(x: -275)
-                .offset(y: 500)
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
@@ -181,14 +188,11 @@ struct SkilletView: View {
                 ) // gesture ending brace
 
             // Misc. Ingredient: Onion
-            
             Image("onion")
                 .resizable( )
                 .scaledToFit()
                 .frame(width: 165, height: 165)
                 .position(x: self.xPosOnion, y: yPosOnion)
-                .offset(x: -90)
-                .offset(y: 495)
                 .gesture(
                     DragGesture()
                         .onChanged({ value in
@@ -197,30 +201,35 @@ struct SkilletView: View {
                             self.checkCollision()
                         }) // on changed ending brace
                 ) // gesture ending brace
-            
-            
-            
-            
         } // zstack ending brace
     } // var body ending brace
 
     func checkCollision() {
-        if abs(self.xPosPot - self.xPosMayoLime) < 100 && abs(self.yPosPot - self.yPosMayoLime) < 100 {
-            self.collision = true
-        } else if abs(self.xPosPot - self.xPosCorn) < 100 && abs(self.xPosPot - self.yPosCorn) < 100 {
-            self.collision = true
-        } else if abs(self.xPosPot - self.xPosCotija) < 100 && abs(self.yPosPot - self.yPosCotija) < 100 {
-            self.collision = true
-        } else if abs(self.xPosPot - self.xPosBlackPepper) < 100 && abs(self.yPosPot - self.yPosBlackPepper) < 100 {
-            self.collision = true
-        } else if abs(self.xPosPot - self.xPosOregano) < 100 && abs(self.yPosPot - self.yPosOregano) < 100 {
-            self.collision = true
-        } else if abs (self.xPosPot - self.xPosGroundBeef) < 100 && abs(self.yPosPot - self.yPosGroundBeef) < 100 {
-            self.collision = true
-        } else if abs(self.xPosPot - self.xPosLemonJuice) < 100 && abs(self.yPosPot - self.yPosLemonJuice) < 100 {
-            self.collision = true
-        } else if abs(self.xPosPot - self.xPosOnion) < 100 && abs(self.yPosPot - self.yPosOnion) < 100 {
-            self.collision = true
+        if abs(self.xPosSkillet - self.xPosMayoLime) < 100 && abs(self.yPosSkillet - self.yPosMayoLime) < 100 {
+            self.mayoLimeCollision = true
+        } else if abs(self.xPosSkillet - self.xPosCorn) < 100 && abs(self.xPosSkillet - self.yPosCorn) < 100 {
+            self.cornCollision = true
+        } else if abs(self.xPosSkillet - self.xPosCotija) < 100 && abs(self.yPosSkillet - self.yPosCotija) < 100 {
+            self.cotijaCollision = true
+        } else if abs(self.xPosSkillet - self.xPosBlackPepper) < 100 && abs(self.yPosSkillet - self.yPosBlackPepper) < 100 {
+            self.blackPepperCollision = true
+        } else if abs(self.xPosSkillet - self.xPosOregano) < 100 && abs(self.yPosSkillet - self.yPosOregano) < 100 {
+            self.oreganoCollision = true
+        } else if abs (self.xPosSkillet - self.xPosGroundBeef) < 100 && abs(self.yPosSkillet - self.yPosGroundBeef) < 100 {
+            self.groundBeefCollision = true
+        } else if abs(self.xPosSkillet - self.xPosLemonJuice) < 100 && abs(self.yPosSkillet - self.yPosLemonJuice) < 100 {
+            self.lemonJuiceCollision = true
+        } else if abs(self.xPosSkillet - self.xPosOnion) < 100 && abs(self.yPosSkillet - self.yPosOnion) < 100 {
+            self.onionCollision = true
+        } else {
+            self.mayoLimeCollision = false
+            self.cornCollision = false
+            self.cotijaCollision = false
+            self.blackPepperCollision = false
+            self.oreganoCollision = false
+            self.groundBeefCollision = false
+            self.lemonJuiceCollision = false
+            self.onionCollision = false
         } // if else statements ending brace
     } // func ending brace
 } // struct ending brace

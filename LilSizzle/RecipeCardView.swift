@@ -44,9 +44,11 @@ struct RecipeCardView: View {
                 } // vstack ending brace
                 .padding(.bottom, 150)
                 
-                if timeRemaining == 1 {
+                if timeRemaining == 1 && recipeCard == "eloteRecipeCard" {
                     SkilletView()
-               } // if statement ending brace
+                } else if timeRemaining == 1 && recipeCard == "churrosRecipeCard" {
+                    PotView()
+                } // if statement ending brace
             } // zstack ending brace
         } //nav stack ending brace
         .navigationBarBackButtonHidden(true)
