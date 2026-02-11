@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct RecipeCardView: View {
-    @State private var timeRemaining = 5
+    @State private var timeRemaining = 10
     let recipeCard: String
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
