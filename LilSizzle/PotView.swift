@@ -210,6 +210,8 @@ import AVFoundation
         } // var body ending brace
 func checkCollision () {
     if abs(self.xPosPot - self.xPosFlour) < 100 && abs(self.yPosPot - self.yPosFlour) < 100 {
+        
+        // Check if ingredient is correct or not
         self.collision = true
     } else if abs(self.xPosPot - self.xPosTofu) < 100 && abs (self.xPosPot - self.yPosTofu) < 100 {
         self.collision = true

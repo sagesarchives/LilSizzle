@@ -11,6 +11,29 @@ struct RecipeBookView: View {
     @State private var cornIsForward = false
     @State private var churrosIsForward = false
     
+    var recipes: [Recipe] = [Recipe(
+        name: "Street Corn",
+        image: "elotes",
+        recipeCard: "eloteRecipeCard",
+        possibleIngredients: [
+            Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
+            Ingredient(name: "corn", image: "corn", xPos: 320, yPos: 500),
+            Ingredient(name: "cojitaCheese", image: "cojitaCheese", xPos: 118, yPos: 700),
+            Ingredient(name: "blackPepper", image: "blackPepper", xPos: 320, yPos: 700),
+            Ingredient(name: "oregano", image: "oregano", xPos: 125, yPos: 900),
+            Ingredient(name: "beef", image: "beef", xPos: 320, yPos: 900),
+            Ingredient(name: "onion", image: "onion", xPos: 320, yPos: 1100),
+            Ingredient(name: "lemonJuice", image: "lemonJuice", xPos: 125, yPos: 1100)
+        ],
+        
+        correctIngredients: [
+            Ingredient(name: "corn", image: "corn", xPos: 320, yPos: 500),
+            Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
+            Ingredient(name: "cojitaCheese", image: "cojitaCheese", xPos: 118, yPos: 700)
+        ],
+        correctIngredientCount: 3)
+    ]
+    
     var body: some View {
         NavigationStack {
             ZStack {
