@@ -11,7 +11,7 @@ import SwiftUI
 struct LilSizzleApp: App {
     var body: some Scene {
         WindowGroup {
-            LandingPage()
+            ContentView()
         }
     }
 }
