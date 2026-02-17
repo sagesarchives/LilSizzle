@@ -14,6 +14,28 @@ struct RecipeCardView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
+    var elotes = Recipe(
+        name: "Street Corn",
+        image: "elotes",
+        recipeCard: "eloteRecipeCard",
+        possibleIngredients: [
+            Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
+            Ingredient(name: "cornKernels", image: "cornKernels", xPos: 320, yPos: 500),
+            Ingredient(name: "cotijaCheese", image: "cotijaCheese", xPos: 118, yPos: 700),
+            Ingredient(name: "blackPepper", image: "blackPepper", xPos: 320, yPos: 700),
+            Ingredient(name: "oregano", image: "oregano", xPos: 125, yPos: 900),
+            Ingredient(name: "beef", image: "beef", xPos: 320, yPos: 900),
+            Ingredient(name: "onion", image: "onion", xPos: 320, yPos: 1100),
+            Ingredient(name: "lemonJuice", image: "lemonJuice", xPos: 125, yPos: 1100)
+        ],
+        
+        correctIngredients: [
+            Ingredient(name: "cornKernels", image: "cornKernels", xPos: 320, yPos: 500),
+            Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
+            Ingredient(name: "cotijaCheese", image: "cotijaCheese", xPos: 118, yPos: 700)
+        ],
+    )
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -45,7 +67,7 @@ struct RecipeCardView: View {
                 .padding(.bottom, 150)
                 
                 if timeRemaining == 1 && recipeCard == "eloteRecipeCard" {
-                    SkilletView()
+                    SkilletView(recipe: elotes, recipeCard: "eloteRecipeCard")
                 } else if timeRemaining == 1 && recipeCard == "churrosRecipeCard" {
                     PotView()
                 } // if statement ending brace
@@ -57,7 +79,6 @@ struct RecipeCardView: View {
 
 #Preview {
     RecipeCardView(recipeCard: "eloteRecipeCard")
-    
 }
 
 #Preview {

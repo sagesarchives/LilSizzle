@@ -7,88 +7,64 @@
 
 import SwiftUI
 
-struct SuccessSheetView: View {
+struct SuccessScreenView: View {
+    let finishedRecipe: String
+    
     var body: some View {
-        ZStack {
-//            // 1. Add the background Image first
-//            Image("LosingScreenBackground")
-//                .resizable() // Allows the image to be resized
-//                .scaledToFill() // Scales the image to fill the view, potentially cropping some parts
-//                .ignoresSafeArea() // Extends the image to cover the entire screen, including the safe areas
-//
-//            // 2. Add your main content here (e.g., a VStack with Text and Buttons)
-           
-            Color.cream
-                .ignoresSafeArea()
-            VStack{
-
-                Text("Way to go, let's keepk cooking!")
-                    .font(.custom("Marker Felt", size: 40.0))
-//                    .frame(width:900, height: 100)
-//                    .background()
-                    .padding(.top)
-                    ZStack {
-                       
-                        Image("Rectangle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 500)
-                        VStack{
-                            
-                            HStack{
-                                Image("churros 1")
-                                    .resizable()
-                                    .scaledToFit()
-                              
-                            }
-                            .frame(width: 300, height: 400)
-                        }
-                        .padding()
-                    }
+        NavigationStack {
+            ZStack {
+                Color.sizzleCream
+                    .ignoresSafeArea()
                 
-                .padding()
-                HStack{
-                    Button {
+                VStack {
+                    Text("Way to go, let's keep cooking!")
+                        .font(.custom("Marker Felt", size: 40))
+                        .padding(.top)
+                    
+                    Image(finishedRecipe)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 400, height: 400)
+                    
+                    HStack (spacing: 40) {
+                        NavigationLink(destination: RecipeCardView(recipeCard: "churrosRecipeCard")) {
+                            Text("Next")
+                                .font(.custom("Marker Felt", size: 40))
+                                .foregroundColor(.white)
+                                .tint(.sizzleBrown)
+                                .padding()
+                                .padding(.horizontal,20)
+                                .background(
+                                    Color.sizzleBrown
+                                        .cornerRadius(30)
+                                        .shadow(radius: 10)
+                                ) // background ending brace
+                        } // navlink ending brace
                         
-                    } label: {
-                        Text ("Next")
-                            .font(.custom("Marker Felt", size: 40.0))
-                            .minimumScaleFactor(0.5)
-                    }
-                    .foregroundColor(.white)
-//                    .buttonStyle(.borderedProminent)
-                    .tint(.sizzleBrown)
-                    .padding()
-                    .padding(.horizontal,20)
-                    .background(
-                        Color.sizzleBrown
-                            .cornerRadius(30)
-                            .shadow(radius: 10)
-                    )
-                    Button {
-                        
-                    } label: {
-                        Text ("Home")
-                            .font(.custom("Marker Felt", size: 40.0))
-                            .minimumScaleFactor(0.5)
-                    }
-                    .foregroundColor(.white)
-//                    .buttonStyle(.borderedProminent)
-                    .tint(.sizzleBrown)
-                    .padding()
-                    .padding(.horizontal,20)
-                    .background(
-                        Color.sizzleBrown
-                            .cornerRadius(30)
-                            .shadow(radius: 10)
-                    )
-                   
-                }
-            }
-        }
-    }
-        }
-   
+                        NavigationLink(destination: RecipeBookView()) {
+                            Text ("Home")
+                                .font(.custom("Marker Felt", size: 40))
+                                .foregroundColor(.white)
+                                .tint(.sizzleBrown)
+                                .padding()
+                                .padding(.horizontal,20)
+                                .background(
+                                    Color.sizzleBrown
+                                        .cornerRadius(30)
+                                        .shadow(radius: 10)
+                                ) // background ending brace
+                        } // navlink ending brace
+                    } // hstack ending brace
+                } // vstack ending brace
+            } // zstack ending brace
+        } // navstack ending brace
+    } // var body ending brace
+} // struct ending brace
+
 #Preview {
-    SuccessSheetView()
+    SuccessScreenView(finishedRecipe: "elotes")
 }
+#Preview {
+    SuccessScreenView(finishedRecipe: "churros")
+}
+

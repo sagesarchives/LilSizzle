@@ -11,7 +11,7 @@ struct RecipeBookView: View {
     @State private var cornIsForward = false
     @State private var churrosIsForward = false
     
-    var recipes: [Recipe] = [Recipe(
+    var elotes = Recipe(
         name: "Street Corn",
         image: "elotes",
         recipeCard: "eloteRecipeCard",
@@ -31,8 +31,7 @@ struct RecipeBookView: View {
             Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
             Ingredient(name: "cojitaCheese", image: "cojitaCheese", xPos: 118, yPos: 700)
         ],
-        correctIngredientCount: 3)
-    ]
+    )
     
     var body: some View {
         NavigationStack {

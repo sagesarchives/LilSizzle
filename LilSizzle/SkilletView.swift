@@ -7,233 +7,198 @@
 
 import SwiftUI
 
-
 struct SkilletView: View {
     
-    // array for ingredients
-    
-    
-    // Position #1 = Pot -- Stays Stagnant
-    @State var xPosSkillet: CGFloat = 200
-    @State var yPosSkillet: CGFloat = 300
-    
-    // Position #2 = Mayo & Lime Mixture
-    @State var xPosMayoLime: CGFloat = 118
-    @State var yPosMayoLime: CGFloat = 500
-    
-    // Position #3 = Corn Kernels
-    @State var xPosCorn: CGFloat = 320
-    @State var yPosCorn: CGFloat = 500
-    
-    // Position #4 = Cotija Cheese
-    @State var xPosCotija: CGFloat = 118
-    @State var yPosCotija: CGFloat = 700
-    
-    // Position #5 = Black Pepper
-    @State var xPosBlackPepper: CGFloat = 320
-    @State var yPosBlackPepper: CGFloat = 700
-    
-    // Position #6 = Oregano
-    @State var xPosOregano: CGFloat = 125
-    @State var yPosOregano: CGFloat = 900
-    
-    // Position #7 = Ground Beef
-    @State var xPosGroundBeef: CGFloat = 320
-    @State var yPosGroundBeef: CGFloat = 900
-    
-    // Position #8 = Lemon Juice
-    @State var xPosLemonJuice: CGFloat = 125
-    @State var yPosLemonJuice: CGFloat = 1100
-    
-    // Position #9 = Onion
-    @State var xPosOnion: CGFloat = 320
-    @State var yPosOnion: CGFloat = 1100
-    
-    // Ingredient collision booleans
-    @State var mayoLimeCollision: Bool = false
-    @State var cornCollision: Bool = false
-    @State var cotijaCollision: Bool = false
-    @State var blackPepperCollision: Bool = false
-    @State var oreganoCollision: Bool = false
-    @State var groundBeefCollision: Bool = false
-    @State var lemonJuiceCollision: Bool = false
-    @State var onionCollision: Bool = false
+    // Setting up variables & booleans
+    @State var recipe: Recipe
+    @State var flameCount = 0
+    @State var correctCount = 0
+    @State var shouldShowRecipe: Bool = false
+    let recipeCard: String
 
-//    @State var ingredientCount: Int
+    // Top tab bar positioning
+    @State var xPosSkillet: CGFloat = 900
+    @State var yPosSkillet: CGFloat = 620
+    @State var homeButtonPos = CGPoint(x: 80, y: 245)
+    @State var recipeButtonPos = CGPoint(x: -5, y: 245)
+    @State var flamesPos = CGPoint(x: 1260, y: 245)
     
+    // Array variable
+    @State var completed: Set<Ingredient> = []
+    
+    // Mascot positioning
+    @State var correctMascotPos: CGPoint = CGPoint(x: 1200, y: 800)
+    @State var incorrectMascotPos: CGPoint = CGPoint(x: 1200, y: 780)
+
     var body: some View {
-        ZStack {
-            Image("stovetop")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 1387, height: 1387)
-            
-            
-            // Settings
-            Image(systemName: "gearshape.circle.fill")
-                .font(.system(size: 80))
-                .offset(x: -600, y: -450)
-                .foregroundColor(.black)
+        NavigationStack {
+            ZStack {
+                Image("stovetop")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 1387, height: 1387)
 
-            
-            // Flames
-            HStack {
-                Image(systemName: "flame")
-                    .font(.system(size: 60))
-                Image(systemName: "flame")
-                    .font(.system(size: 60))
-                Image(systemName: "flame")
-                    .font(.system(size: 60))
-            } // hstack ending brace
-            .offset(x: 560, y: -450)
-
-            // -- GAME START
-            
-            // Skillet; Stays stagnant
-            Image("skillet")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 750, height: 750)
-                .position(x: self.xPosSkillet, y: self.yPosSkillet)
-                .offset(y: 320)
-                .offset(x: 700)
-            
-            // Mayo & Lime mixture
-            Image("mayoLime")
-                .position(x: self.xPosMayoLime, y: self.yPosMayoLime)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosMayoLime = value.location.x
-                            self.yPosMayoLime = value.location.y
-                            self.checkCollision()
-                        }) // on changed ending brace
-                ) // gesture ending brace
-            
-            // Corn kernels
-            Image("cornKernels")
-                .position(x: self.xPosCorn, y: self.yPosCorn)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosCorn = value.location.x
-                            self.yPosCorn = value.location.y
-                        }) // onchanged ending brace
-                ) // gesture ending brace
-            
-            // Cotija cheese
-            Image("cotijaCheese")
-                .position(x: self.xPosCotija, y: self.yPosCotija)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosCotija = value.location.x
-                            self.yPosCotija = value.location.y
-                            self.checkCollision()
-                        }) // on changed ending brace
-                ) // gesture ending brace
-            
-            // Misc. Ingredient: Black Pepper
-            Image("blackPepper")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 160, height: 160)
-                .position(x: self.xPosBlackPepper, y: self.yPosBlackPepper)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosBlackPepper = value.location.x
-                            self.yPosBlackPepper = value.location.y
-                            self.checkCollision( )
-                        }) // on changed ending brace
-                ) // gesture ending brace
-            
-            // Misc. Ingredient: Oregano
-            Image("oregano")
-                .position(x: self.xPosOregano, y: self.yPosOregano)
-                .gesture(
-                        DragGesture()
-                            .onChanged({ value in
-                                self.xPosOregano = value.location.x
-                                self.yPosOregano = value.location.y
-                                self.checkCollision()
-                            }) // on changed ending brace
-                    ) // gesture ending brace
+                HStack {
+                    NavigationLink (destination: RecipeBookView()) {
+                        Image(systemName: "house.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(Color.sizzlePurple)
+                            .frame(width: 70, height: 70)
+                            .position(homeButtonPos)
+                    } // navlink ending brace
+                    
+                    Button {
+                        shouldShowRecipe = true
+                    } label: {
+                        Image("recipeButton")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 170, height: 170)
+                            .position(recipeButtonPos)
+                    } // label ending brace
+                    .sheet(isPresented: $shouldShowRecipe) {
+                        RecipeCardPopUp(recipeCard: "eloteRecipecard")
+                            .presentationBackground(.sizzleBrown)
+                    }
+                }
+                    HStack {
+                        ForEach(0..<3) { index in
+                            Image(systemName: "flame.fill")
+                                .font(.system(size: 60))
+                                .foregroundColor(index < flameCount ? .red : .gray)
+                                .opacity(index > flameCount ? 1.0 : 1.0)
+                                .animation(.default, value: flameCount)
+                        } // for each ending brace
+                    } // hstack ending brace
+                    .position(flamesPos)
                 
-            // Misc. Ingredient: Ground Beef
-            Image("beef")
-                .resizable( )
-                .scaledToFit()
-                .frame(width: 200, height: 200)
-                .position(x: self.xPosGroundBeef, y: self.yPosGroundBeef)
-                .gesture (
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosGroundBeef = value.location.x
-                            self.yPosGroundBeef = value.location.y
-                            self.checkCollision()
-                        }) // on changed ending brace
-                ) // gesture ending brace
-            
-            // Misc. Ingredient: Lemon Juice
-            Image("lemonJuice")
-                .position(x: self.xPosLemonJuice, y: self.yPosLemonJuice)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosLemonJuice = value.location.x
-                            self.yPosLemonJuice = value.location.y
-                            self.checkCollision( )
-                        }) // on changed ending brace
-                ) // gesture ending brace
-
-            // Misc. Ingredient: Onion
-            Image("onion")
-                .resizable( )
-                .scaledToFit()
-                .frame(width: 165, height: 165)
-                .position(x: self.xPosOnion, y: yPosOnion)
-                .gesture(
-                    DragGesture()
-                        .onChanged({ value in
-                            self.xPosOnion = value.location.x
-                            self.yPosOnion = value.location.y
-                            self.checkCollision()
-                        }) // on changed ending brace
-                ) // gesture ending brace
-        } // zstack ending brace
-    } // var body ending brace
-
-    func checkCollision() {
-        if abs(self.xPosSkillet - self.xPosMayoLime) < 100 && abs(self.yPosSkillet - self.yPosMayoLime) < 100 {
-            self.mayoLimeCollision = true
-        } else if abs(self.xPosSkillet - self.xPosCorn) < 100 && abs(self.xPosSkillet - self.yPosCorn) < 100 {
-            self.cornCollision = true
-        } else if abs(self.xPosSkillet - self.xPosCotija) < 100 && abs(self.yPosSkillet - self.yPosCotija) < 100 {
-            self.cotijaCollision = true
-        } else if abs(self.xPosSkillet - self.xPosBlackPepper) < 100 && abs(self.yPosSkillet - self.yPosBlackPepper) < 100 {
-            self.blackPepperCollision = true
-        } else if abs(self.xPosSkillet - self.xPosOregano) < 100 && abs(self.yPosSkillet - self.yPosOregano) < 100 {
-            self.oreganoCollision = true
-        } else if abs (self.xPosSkillet - self.xPosGroundBeef) < 100 && abs(self.yPosSkillet - self.yPosGroundBeef) < 100 {
-            self.groundBeefCollision = true
-        } else if abs(self.xPosSkillet - self.xPosLemonJuice) < 100 && abs(self.yPosSkillet - self.yPosLemonJuice) < 100 {
-            self.lemonJuiceCollision = true
-        } else if abs(self.xPosSkillet - self.xPosOnion) < 100 && abs(self.yPosSkillet - self.yPosOnion) < 100 {
-            self.onionCollision = true
+// MARK: GAME START
+                
+                Image("skillet")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 750, height: 750)
+                    .position(x: self.xPosSkillet, y: self.yPosSkillet)
+                
+                ForEach($recipe.possibleIngredients, id: \.name) { $ingredient in
+                    Image(ingredient.image)
+                        .position(x: ingredient.xPos, y: ingredient.yPos)
+                        .gesture (
+                            DragGesture()
+                                .onEnded({ value in
+                                    ingredient.xPos = value.location.x
+                                    ingredient.yPos = value.location.y
+                                    // troubleshooting needed
+                                    if !completed.contains(where: { $0.name == ingredient.name }) {
+                                        checkIngredientCollision(ingredient: ingredient)
+                                    } // if statement ending brace
+                                }) // on changed ending brace
+                        ) // gesture ending brace
+                } // for each ending brace
+                .overlay {
+                    if correctCount == 3 {
+                        SuccessScreenView(finishedRecipe: "elotes")
+                    }
+                    
+                    if flameCount == 3 {
+                        FailureScreenView()
+                    }
+                } // overlay ending brace
+                
+//                if correctCount == 1 {
+//                    Image("excitedSizzle")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 300, height: 300)
+//                        .position(correctMascotPos)
+//                } // excited sizzle ending brace
+//                
+//                if correctCount == 2 {
+//                    Image("smilingSizzle")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 300, height: 300)
+//                        .position(correctMascotPos)
+//                } // smiling sizzle ending brace
+//                
+//                if flameCount == 1 {
+//                    Image("sadSizzle")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 380, height: 380)
+//                        .position(correctMascotPos)
+//                } // sad sizzle ending brace
+//                
+//                if flameCount == 2 {
+//                    Image("sadSizzle")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 380, height: 380)
+//                        .position(correctMascotPos)
+//                } // sad sizzle ending brace
+                
+            } // zstack ending brace
+        } // var body ending brace
+    } // navstack ending brace
+    
+    func checkIngredientCollision(ingredient: Ingredient) {
+        if abs(self.xPosSkillet - ingredient.xPos) < 200 && abs(self.yPosSkillet - ingredient.yPos) < 200 {
+            processTurn(ingredient: ingredient)
+        } // if statement ending brace
+    } // collision func ending brace
+    
+    func processTurn(ingredient: Ingredient){
+        if self.recipe.correctIngredients.contains(where: { i in
+            i.name == ingredient.name
+        }) {
+            completed.insert(ingredient)
+            self.correctCount += 1
+            // print("correct! correctCount: \(correctCount)")
         } else {
-            self.mayoLimeCollision = false
-            self.cornCollision = false
-            self.cotijaCollision = false
-            self.blackPepperCollision = false
-            self.oreganoCollision = false
-            self.groundBeefCollision = false
-            self.lemonJuiceCollision = false
-            self.onionCollision = false
-        } // if else statements ending brace
-    } // func ending brace
+            completed.insert(ingredient)
+            self.flameCount += 1
+            // print("wrong! flameCount: \(flameCount)")
+        } // if else statement ending brace
+    } // process turn ending brace
+    
 } // struct ending brace
 
+
+struct RecipeCardPopUp: View {
+    let recipeCard: String
+    
+    var body: some View {
+        Image("eloteRecipeCard")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 500, height: 500)
+            .padding(.leading, 70)
+    }
+}
+
 #Preview {
-    SkilletView()
+    var elotes = Recipe(
+        name: "Street Corn",
+        image: "elotes",
+        recipeCard: "eloteRecipeCard",
+        possibleIngredients: [
+            Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
+            Ingredient(name: "cornKernels", image: "cornKernels", xPos: 320, yPos: 500),
+            Ingredient(name: "cotijaCheese", image: "cotijaCheese", xPos: 118, yPos: 700),
+            Ingredient(name: "blackPepper", image: "blackPepper", xPos: 320, yPos: 700),
+            Ingredient(name: "oregano", image: "oregano", xPos: 125, yPos: 900),
+            Ingredient(name: "beef", image: "beef", xPos: 320, yPos: 900),
+            Ingredient(name: "onion", image: "onion", xPos: 320, yPos: 1100),
+            Ingredient(name: "lemonJuice", image: "lemonJuice", xPos: 125, yPos: 1100)
+        ],
+        
+        correctIngredients: [
+            Ingredient(name: "cornKernels", image: "cornKernels", xPos: 320, yPos: 500),
+            Ingredient(name: "mayoLime", image: "mayoLime", xPos: 118, yPos: 500),
+            Ingredient(name: "cotijaCheese", image: "cotijaCheese", xPos: 118, yPos: 700)
+        ],
+    )
+    
+    SkilletView(recipe: elotes, recipeCard: "eloteRecipeCard")
 }
