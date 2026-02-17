@@ -24,7 +24,16 @@ struct LandingPage: View {
                     NavigationLink(destination: RecipeBookView()) {
                         Image("start")
                             .shadow(radius: 30)
-                    } // navlink ending brace
+                    }
+                    NavigationLink(destination: CreditsScreen()) {
+                        Image("CreditsButton")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 60)
+                            .padding(40)
+                        
+                    }
+                    // navlink ending brace
                 } // vstack ending brace
             } // zstack ending brace
         }//nav stack ending brace
