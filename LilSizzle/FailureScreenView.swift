@@ -7,12 +7,12 @@
 //
 import SwiftUI
 
-struct FailSheetView: View {
+struct FailureScreenView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
             ZStack {
-                Color.cream
+                Color.sizzleCream
                     .ignoresSafeArea()
                 VStack {
                     
@@ -83,5 +83,5 @@ struct FailSheetView: View {
 }
 
 #Preview {
-    FailSheetView()
+    FailureScreenView()
 }
