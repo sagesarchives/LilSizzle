@@ -14,11 +14,11 @@ struct SkilletView: View {
     @State var flameCount = 0
     @State var correctCount = 0
     @State var shouldShowRecipe: Bool = false
+    @State var xPosSkillet: CGFloat = 900
+    @State var yPosSkillet: CGFloat = 620
     let recipeCard: String
 
     // Top tab bar positioning
-    @State var xPosSkillet: CGFloat = 900
-    @State var yPosSkillet: CGFloat = 620
     @State var homeButtonPos = CGPoint(x: 80, y: 245)
     @State var recipeButtonPos = CGPoint(x: -5, y: 245)
     @State var flamesPos = CGPoint(x: 1260, y: 245)
@@ -27,8 +27,8 @@ struct SkilletView: View {
     @State var completed: Set<Ingredient> = []
     
     // Mascot positioning
-    @State var correctMascotPos: CGPoint = CGPoint(x: 1200, y: 800)
-    @State var incorrectMascotPos: CGPoint = CGPoint(x: 1200, y: 780)
+//    @State var correctMascotPos: CGPoint = CGPoint(x: 1200, y: 800)
+//    @State var incorrectMascotPos: CGPoint = CGPoint(x: 1200, y: 780)
 
     var body: some View {
         NavigationStack {
@@ -47,6 +47,7 @@ struct SkilletView: View {
                             .frame(width: 70, height: 70)
                             .position(homeButtonPos)
                     } // navlink ending brace
+                    .buttonStyle(.plain)
                     
                     Button {
                         shouldShowRecipe = true
@@ -57,8 +58,9 @@ struct SkilletView: View {
                             .frame(width: 170, height: 170)
                             .position(recipeButtonPos)
                     } // label ending brace
+                    .buttonStyle(.automatic)
                     .sheet(isPresented: $shouldShowRecipe) {
-                        RecipeCardPopUp(recipeCard: "eloteRecipecard")
+                        EloteRecipeCardPopUp()
                             .presentationBackground(.sizzleBrown)
                     }
                 }
@@ -93,54 +95,22 @@ struct SkilletView: View {
                                     if !completed.contains(where: { $0.name == ingredient.name }) {
                                         checkIngredientCollision(ingredient: ingredient)
                                     } // if statement ending brace
-                                }) // on changed ending brace
+                                }) // on ended ending brace
                         ) // gesture ending brace
                 } // for each ending brace
                 .overlay {
                     if correctCount == 3 {
-                        SuccessScreenView(finishedRecipe: "elotes")
+                        SkilletSuccessScreen()
                     }
                     
                     if flameCount == 3 {
-                        FailureScreenView()
+                        SkilletFailureScreen()
                     }
                 } // overlay ending brace
-                
-//                if correctCount == 1 {
-//                    Image("excitedSizzle")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 300, height: 300)
-//                        .position(correctMascotPos)
-//                } // excited sizzle ending brace
-//                
-//                if correctCount == 2 {
-//                    Image("smilingSizzle")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 300, height: 300)
-//                        .position(correctMascotPos)
-//                } // smiling sizzle ending brace
-//                
-//                if flameCount == 1 {
-//                    Image("sadSizzle")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 380, height: 380)
-//                        .position(correctMascotPos)
-//                } // sad sizzle ending brace
-//                
-//                if flameCount == 2 {
-//                    Image("sadSizzle")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 380, height: 380)
-//                        .position(correctMascotPos)
-//                } // sad sizzle ending brace
-                
             } // zstack ending brace
-        } // var body ending brace
-    } // navstack ending brace
+        } // navstack ending brace
+        .navigationBarBackButtonHidden()
+    } // var body ending brace
     
     func checkIngredientCollision(ingredient: Ingredient) {
         if abs(self.xPosSkillet - ingredient.xPos) < 200 && abs(self.yPosSkillet - ingredient.yPos) < 200 {
@@ -161,24 +131,29 @@ struct SkilletView: View {
             // print("wrong! flameCount: \(flameCount)")
         } // if else statement ending brace
     } // process turn ending brace
-    
 } // struct ending brace
 
 
-struct RecipeCardPopUp: View {
-    let recipeCard: String
-    
+struct EloteRecipeCardPopUp: View {
     var body: some View {
-        Image("eloteRecipeCard")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 500, height: 500)
-            .padding(.leading, 70)
-    }
-}
+        VStack (spacing: -90) {
+            Image("eloteRecipeCard")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 600, height: 600)
+                .padding(.leading, 90)
+            
+            Image("pawPrint")
+                .resizable()
+                .scaledToFit()
+                .padding(.bottom, 50)
+                .frame(width: 150, height: 150)
+        } // vstack ending brace
+    } // var body ending brace
+} // struc ending brace
 
 #Preview {
-    var elotes = Recipe(
+    let elotes = Recipe(
         name: "Street Corn",
         image: "elotes",
         recipeCard: "eloteRecipeCard",

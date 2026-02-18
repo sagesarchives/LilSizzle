@@ -6,232 +6,172 @@
 //
 
 import SwiftUI
-import AVFoundation
 
     struct PotView: View {
-        @State var xPosPot: CGFloat = 940
+        
+        // Setting up variables & booleans
+        @State var recipe: Recipe
+        @State var flameCount = 0
+        @State var correctCount = 0
+        @State var shouldShowRecipe: Bool = false
+        @State var xPosPot: CGFloat = 920
         @State var yPosPot: CGFloat = 620
         
-        //Position #2 = tofu Ingredient #1
-        @State var xPosTofu: CGFloat = 100
-        @State var yPosTofu: CGFloat = 500
+        let recipeCard: String
         
-        //Position #3 =  onion Ingredient #2
-        @State var xPosOnion: CGFloat = 300
-        @State var yPosOnion: CGFloat = 485
+        // Top tab bar positioning
+        @State var homeButtonPos = CGPoint(x: 80, y: 245)
+        @State var recipeButtonPos = CGPoint(x: -5, y: 245)
+        @State var flamesPos = CGPoint(x: 1260, y: 245)
         
-        @State var xPosFlour: CGFloat = 100
-        @State var yPosFlour: CGFloat = 700
-        
-        @State var xPosSugar: CGFloat = 300
-        @State var yPosSugar: CGFloat = 700
-        
-        @State var xPosCinnamon: CGFloat = 100
-        @State var yPosCinnamon: CGFloat = 890
-        
-        @State var xPosOil: CGFloat = 300
-        @State var yPosOil: CGFloat = 890
-        
-        @State var xPosTSauce: CGFloat = 100
-        @State var yPosTSauce: CGFloat = 1100
-        
-        @State var xPosWater: CGFloat = 300
-        @State var yPosWater: CGFloat = 1100
-        
-        @State var xPos10: CGFloat = 1300
-        @State var yPos10: CGFloat = 250
-        
-        @State var xPos11: CGFloat = 1100
-        @State var yPos11: CGFloat = 250
-        
-        @State var xPos12: CGFloat = 1200
-        @State var yPos12: CGFloat = 250
-        
-        
-        
-        @State var collision: Bool = false
-        @State private var audioPlayer:  AVAudioPlayer?
-        
-        var body: some View {
-           
-            ZStack {
-                Image("stovetop")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 1387, height: 1387)
-                Image("pot")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 750, height: 750)
-                                .position(x: self.xPosPot, y: self.yPosPot)
-                Image("tofu")
-                    .position(x: self.xPosTofu, y:self.yPosTofu)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosTofu = value.location.x
-                                self.yPosTofu = value.location.y
-                                self.checkCollision()
-                                
-                            })
-                    )
-                Image("onion")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 165, height: 165)
-                    .position(x: self.xPosOnion, y:self.yPosOnion)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosOnion = value.location.x
-                                self.yPosOnion = value.location.y
-                                self.checkCollision()
-                                
-                            })// on changed ending brace
-                    )// gesture ending brace
-                                
-                Image("flour")
-                    .position(x: self.xPosFlour, y:self.yPosFlour)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosFlour = value.location.x
-                                self.yPosFlour = value.location.y
-                                self.checkCollision()
-                                
-                            })// onchanged ending brace
-                    )// gesture ending brace
-            
-                Image("sugar")
-                    .position(x: self.xPosSugar, y:self.yPosSugar)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosSugar = value.location.x
-                                self.yPosSugar = value.location.y
-                                self.checkCollision()
-                                
-                            })//on changed ending brace
-                    )// gesture ending brace
-                Image("cinnamon")
-                    .position(x: self.xPosCinnamon, y:self.yPosCinnamon)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosCinnamon = value.location.x
-                                self.yPosCinnamon = value.location.y
-                               self.checkCollision()
-                                
-                            })// on changed ending brace
-                    )// gesture ending brace
-                Image("oil")
-                    .resizable()
-                    .scaledToFit()
-                    .frame ( width: 160, height: 160)
-                    .position(x: self.xPosOil, y:self.yPosOil)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosOil = value.location.x
-                                self.yPosOil = value.location.y
-                                self.checkCollision()
-                                
-                            })//on changed ending brace
-                    )// gesture ending brace
-                Image("tomatoSauce")
-                    .position(x: self.xPosTSauce, y:self.yPosTSauce)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosTSauce = value.location.x
-                                self.yPosTSauce = value.location.y
-                               self.checkCollision()
-                                
-                            })// on changed ending brace
-                    )//gesture ending brace
-                Image("water")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 170, height: 170)
-                    .position(x: self.xPosWater, y:self.yPosWater)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPosWater = value.location.x
-                                self.yPosWater = value.location.y
-                                self.checkCollision()
-                                
-                            })// on changed ending brace
-                    )// gesture ending brace
-                
-                Image("fireUnlit")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 150)
-                    .position(x: self.xPos10, y:self.yPos10)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPos10 = value.location.x
-                                self.yPos10 = value.location.y
-                                self.checkCollision()
-                                
-                            })// on changed ending brace
-                    )// gesture ending brace
-                Image("fireUnlit")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 150)
-                    .position(x: self.xPos11, y:self.yPos11)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPos11 = value.location.x
-                                self.yPos11 = value.location.y
-                                self.checkCollision()
-                            })// on changed ending brace
-                    )// gesture ending brace
-                Image("fireUnlit")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 150)
-                    .position(x: self.xPos12, y:self.yPos12)
-                    .gesture(
-                        DragGesture()
-                            .onChanged({value in
-                                self.xPos12 = value.location.x
-                                self.yPos12 = value.location.y
-                                self.checkCollision()
-                                
-                            })// on changed ending brace
-                    )// gesture ending brace
-                
-            } // zstack ending brace
-        } // var body ending brace
-func checkCollision () {
-    if abs(self.xPosPot - self.xPosFlour) < 100 && abs(self.yPosPot - self.yPosFlour) < 100 {
-        
-        // Check if ingredient is correct or not
-        self.collision = true
-    } else if abs(self.xPosPot - self.xPosTofu) < 100 && abs (self.xPosPot - self.yPosTofu) < 100 {
-        self.collision = true
-    } else if abs(self.xPosPot - self.xPosOnion) < 100 && abs (self.xPosPot - self.yPosOnion) < 100 {
-        self.collision = true
-    } else if abs (self.xPosPot - self.xPosCinnamon) < 100 && abs (self.xPosPot - self.yPosCinnamon) < 100 {
-        self.collision = true
-    } else if abs (self.xPosPot - xPosOil) < 100 && abs (self.xPosPot - self.yPosOil) < 100 {
-        self.collision = true
-    } else if abs (self.xPosPot - self.xPosSugar) < 100 && abs (self.yPosPot - self.yPosSugar) < 100 {
-        self.collision = true
-    } else if abs (self.xPosPot - self.xPosTSauce) < 100 && abs (self.xPosPot - self.yPosTSauce) < 100 {
-        self.collision = true
-    } else if abs (self.xPosPot - self.xPosWater) < 100 && abs (self.xPosPot - self.yPosWater) < 100 {
-        self.collision = true
-    }//if else statements ending brace
-} //func ending brace
-} //struct ending brace
+        // Array variable
+        @State var completed: Set<Ingredient> = []
 
+        var body: some View {
+            NavigationStack {
+                ZStack {
+                    Image("stovetop")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 1387, height: 1387)
+                    HStack {
+                        NavigationLink (destination: RecipeBookView()) {
+                            Image(systemName: "house.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundStyle(Color.sizzlePurple)
+                                .frame(width: 70, height: 70)
+                                .position(homeButtonPos)
+                        } // navlink ending brace
+                        .buttonStyle(.plain)
+                        
+                        Button {
+                            shouldShowRecipe = true
+                        } label: {
+                            Image("recipeButton")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 170, height: 170)
+                                .position(recipeButtonPos)
+                        } // label ending brace
+                        .buttonStyle(.automatic)
+                        .sheet(isPresented: $shouldShowRecipe) {
+                            ChurrosRecipeCardPopUp()
+                                .presentationBackground(.sizzleBrown)
+                        } // sheet ending brace
+                    } // hstack ending brace
+                        HStack {
+                            ForEach(0..<3) { index in
+                                Image(systemName: "flame.fill")
+                                    .font(.system(size: 60))
+                                    .foregroundColor(index < flameCount ? .red : .gray)
+                                    .opacity(index > flameCount ? 1.0 : 1.0)
+                                    .animation(.default, value: flameCount)
+                                } // for each ending brace
+                            } // hstack ending brace
+                            .position(flamesPos)
+// MARK: GAME START
+                        
+                        Image("pot")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 750, height: 750)
+                            .position(x: self.xPosPot, y: self.yPosPot)
+                        
+                    ForEach($recipe.possibleIngredients, id: \.name) { $ingredient in
+                        Image(ingredient.image)
+                            .position(x: ingredient.xPos, y: ingredient.yPos)
+                            .gesture (
+                                DragGesture()
+                                    .onEnded({ value in
+                                        ingredient.xPos = value.location.x
+                                        ingredient.yPos = value.location.y
+                                        // troubleshooting needed
+                                        if !completed.contains(where: { $0.name == ingredient.name }) {
+                                            checkIngredientCollision(ingredient: ingredient)
+                                        } // if statement ending brace
+                                    }) // on ended ending brace
+                            ) // gesture ending brace
+                    } // for each ending brace
+                    
+                    .overlay {
+                        if correctCount == 5 {
+                            PotSuccessScreen()
+                        }
+                        
+                        if flameCount == 3 {
+                            PotFailureScreen()
+                        }
+                    } // overlay ending brace
+                    
+                } // zstack ending brace ending brace
+            } // navstack ending brace
+            .navigationBarBackButtonHidden()
+        } // var body ending brace
+        
+        func checkIngredientCollision(ingredient: Ingredient) {
+                if abs(self.xPosPot - ingredient.xPos) < 200 && abs(self.yPosPot - ingredient.yPos) < 200 {
+                    processTurn(ingredient: ingredient)
+                } // if statement ending brace
+            } // collision func ending brace
+        
+        func processTurn(ingredient: Ingredient){
+                if self.recipe.correctIngredients.contains(where: { i in
+                    i.name == ingredient.name
+                }) {
+                    completed.insert(ingredient)
+                    self.correctCount += 1
+                    // print("correct! correctCount: \(correctCount)")
+                } else {
+                    completed.insert(ingredient)
+                    self.flameCount += 1
+                    // print("wrong! flameCount: \(flameCount)")
+                } // if else statement ending brace
+            } // process turn ending brace
+    } // struct ending brace
+
+struct ChurrosRecipeCardPopUp: View {
+    var body: some View {
+        VStack (spacing: -90) {
+            Image("churrosRecipeCard")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 600, height: 600)
+                .padding(.leading, 45)
+            
+            Image("pawPrint")
+                .resizable()
+                .scaledToFit()
+                .padding(.bottom, 50)
+                .frame(width: 150, height: 150)
+        } // vstack ending brace
+        .padding(.bottom, 40)
+    } // var body ending brace
+} // struct ending brace
 
 #Preview {
-    PotView()
+    let churros = Recipe(
+        name: "Churros",
+        image: "churros",
+        recipeCard: "churrosRecipeCard",
+        possibleIngredients: [
+            Ingredient(name: "water", image: "water", xPos: 118, yPos: 500),
+            Ingredient(name: "sugar", image: "sugar", xPos: 320, yPos: 500),
+            Ingredient(name: "oil", image: "oil", xPos: 320, yPos: 700),
+            Ingredient(name: "flour", image: "flour", xPos: 125, yPos: 900),
+            Ingredient(name: "cinnamon", image: "cinnamon", xPos: 320, yPos: 900),
+            Ingredient(name: "salt", image: "salt", xPos: 118, yPos: 700),
+            Ingredient(name: "egg", image: "egg", xPos: 118, yPos: 1100),
+            Ingredient(name: "oatMilk", image: "oatMilk", xPos: 330, yPos: 1100),
+        ],
+        
+        correctIngredients: [
+            Ingredient(name: "water", image: "water", xPos: 118, yPos: 500),
+            Ingredient(name: "sugar", image: "sugar", xPos: 320, yPos: 500),
+            Ingredient(name: "oil", image: "oil", xPos: 320, yPos: 700),
+            Ingredient(name: "flour", image: "flour", xPos: 125, yPos: 900),
+            Ingredient(name: "cinnamon", image: "cinnamon", xPos: 320, yPos: 900),
+        ],
+    )
+    PotView(recipe: churros, recipeCard: "churrosRecipeCard")
 }

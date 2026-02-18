@@ -15,28 +15,33 @@ struct LandingPage: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 1390, height: 1390)
-                VStack {
+                VStack (spacing: -100) {
                     Image("logo")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 500, height: 500)
                         .shadow(radius: 30)
+                    
                     NavigationLink(destination: RecipeBookView()) {
                         Image("start")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
                             .shadow(radius: 30)
                     }
+                    
                     NavigationLink(destination: CreditsScreen()) {
                         Image("CreditsButton")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 60)
-                            .padding(40)
-                        
+                            .frame(width: 270, height: 270)
+                            .shadow(radius: 30)
                     }
                     // navlink ending brace
                 } // vstack ending brace
             } // zstack ending brace
         }//nav stack ending brace
+        .navigationBarBackButtonHidden()
     } // var body ending brace
 } // struct ending brace
 
