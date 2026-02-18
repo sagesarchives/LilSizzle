@@ -11,7 +11,7 @@ struct RecipeBookView: View {
     @State private var cornIsForward = false
     @State private var churrosIsForward = false
     
-    var elotes = Recipe(
+    let elotes = Recipe(
         name: "Street Corn",
         image: "elotes",
         recipeCard: "eloteRecipeCard",
@@ -85,7 +85,7 @@ struct RecipeBookView: View {
                 .padding(.top, 100)
                 
                 // Churros
-                VStack (spacing: -60) {
+                VStack (spacing: -15) {
                     Image("churrosLabel")
                         .padding(.leading, 615)
                         .padding(.bottom, 30)
