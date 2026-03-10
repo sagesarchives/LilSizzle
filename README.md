@@ -18,7 +18,7 @@ https://testflight.apple.com/join/38Tuedf9
 # Contacts
 Project Manager: Jazmine Martin | jazzyarts16@gmail.com <br>
 <br>
-UI Designer / Brand Builder | jahnellroberson89@gmail.com <br>
+UI Designer / Brand Builder: Jah'Nell Roberson | jahnellroberson89@gmail.com <br>
 <br>
 UX Designer / Video Production Manager: Irmani Chears | irmanichears@gmail.com <br>
 <br>
